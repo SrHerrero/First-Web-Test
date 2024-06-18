@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RPS</title>
+    <link rel="stylesheet" href="r-p-s.css">
+  </head>
+  <body style="background-color: rgb(23, 23, 23);">
+    <div class="text-top">
+      <p>Piedra, Papel, o Tijera</p>
+    </div>
+
+    <div class="opciones">
+      <button class="piedra-bot" onclick=" 
+      pcElect()
+      let resultado = '';
+      upload('piedra')
+      "> 
+        <img style="width: 100px;" src="Images/b55eccb8fb67c9fd017e5df9f47cab3e-roca-de-piedra.webp">
+      </button>
+
+      <button class="papel-bot" onclick="
+      pcElect()
+      resultado = '';
+      upload('papel')
+      "> 
+        <img style="width: 100px;padding-left: 6px;padding-top: 6px;" src="Images/d90r5aa-016ae97a-2fc0-45c9-a002-a783bac96511.png">;
+      </button>
+
+      <button class="tijera-bot" onclick="
+      pcElect()
+      resultado = '';
+      upload('tijera')
+      "> 
+        <img style="width: 100px; padding-left: 3px;padding-bottom: 2px;" src="Images/6342526.png">
+      </button>
+    </div>
+    <div>
+      <p class="final-partida">
+        
+      </p>
+      <p class="enfrentamiento">
+      </p>
+      <p class="victorias">
+
+      </p>
+      <p class="derrotas">
+
+      </p>
+      <p class="empates">
+
+      </p>
+      <p class="resultado-partidas">
+        <!--Victorias: 0 / 
+        Derrotas: 0 / 
+        Empates: 0 / 
+        Balance: ¡Estáis empatados!-->
+      </p>
+    </div>
+
+    <script>
+      let pcMove = '';
+      function pcElect(){
+        let probability = Math.random();
+       
+        if(probability<=(1/3)){
+          pcMove = 'piedra';
+        }else if(probability>(2/3)){
+          pcMove = 'tijera';
+        }else {
+          pcMove ='papel';
+        }
+        return pcMove;
+      }
+      
+      function final(choice){
+        if((pcMove==='piedra' && choice ==='tijera')
+        ||(pcMove==='papel' && choice ==='piedra')
+        ||(pcMove==='tijera'&& choice==='papel')){
+        resultado = 'perdido';
+        }else if((pcMove==='piedra' && choice ==='piedra')
+        ||(pcMove==='papel' && choice ==='papel')
+        ||(pcMove==='tijera'&& choice==='tijera')){
+          resultado = 'empatado'
+        }else if ((pcMove==='piedra' && choice ==='papel')
+        ||(pcMove==='papel' && choice ==='tijera')
+        ||(pcMove==='tijera'&& choice==='piedra')){
+          resultado = 'ganado'
+        }
+        return resultado;
+      }
+       
+      let Wins = document.querySelector('.victorias')
+      let Ties = document.querySelector('.empates')
+      let Ls = document.querySelector('.derrotas')
+      let vs = 0;
+      let los = 0;
+      let tis = 0;
+      function upload (choice){
+        final(choice)
+        let estado = document.querySelector('.final-partida');
+        let tabla = document.querySelector('.resultado-partidas')
+        let balance = ''
+        if(resultado === 'ganado'){
+          vs=vs +1;
+          estado.innerHTML = '¡Victoria!';
+          /*if(Wins>Ls && Wins>Ties){
+            balance = '¡Vas ganando!';
+          }else if(Ties>Ls && Ties > Wins){
+            balance = '¡Estáis empatados!';
+          }else if(Ls > Wins && Ls > Ties){
+            balance ='¡Vas perdiendo!';
+          }*/
+        
+        }else if(resultado==='empatado'){
+          tis=tis +1;
+          estado.innerHTML = '¡Empate!';
+          /*if(Wins>Ls && Wins>Ties){
+            balance = '¡Vas ganando!';
+          }else if(Ties>Ls && Ties > Wins){
+            balance = '¡Estáis empatados!';
+          }else if(Ls > Wins && Ls > Ties){
+            balance ='¡Vas perdiendo!';
+          }*/
+          
+        }else if(resultado=== 'perdido'){
+          los=los +1;
+          estado.innerHTML = '¡Derrota!';
+          /*if(Wins>Ls && Wins>Ties){
+            balance = '¡Vas ganando!';
+          }else if(Ties>Ls && Ties > Wins){
+            balance = '¡Estáis empatados!';
+          }else if(Ls > Wins && Ls > Ties){
+           balance ='¡Vas perdiendo!';
+          }
+          tabla.innerHTML = ` 
+          Balance: ${balance}`;*/
+          
+        }
+        if(vs>los && vs>=tis){
+          balance = '¡Vas ganando!';
+          console.log(balance);
+        }else if(tis>los && tis > vs){
+          balance = '¡Estáis empatados!';
+          console.log(balance);
+
+        }else if(los > vs && los >= tis){
+          balance ='¡Vas perdiendo!';
+          console.log(balance);
+
+        }else if(los===vs ||(tis===vs && tis===los)){
+          balance = '¡Estáis empatados!';
+        }
+       
+        //console.log(balance)
+        tabla.innerHTML = ` 
+        Balance: ${balance}`;
+        Ls.innerHTML = `Victorias:${vs}, Derrotas: ${los} Empates: ${tis}`;
+     
+      }
+    </script>
+  </body>
+</html>
